@@ -8,19 +8,27 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:id="@+id/etText"
+        android:id="@+id/tvCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="heya, what's up"
-        android:textSize="30sp"
-        android:textStyle="italic|bold"
-        android:textColor="@color/customred"
+        android:text="Let's Count: 0"
         android:textAlignment="center"
-        android:ellipsize="end"
-        android:textAllCaps="true"
-        android:lines="3"
+        android:textColor="@color/customred"
+        android:textSize="30sp"
+        android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="219dp" />
+
+    <Button
+        android:id="@+id/btnCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
+        android:text="+1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvCount" />
 </androidx.constraintlayout.widget.ConstraintLayout>
