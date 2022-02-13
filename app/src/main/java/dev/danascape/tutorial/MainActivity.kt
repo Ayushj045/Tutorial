@@ -1,9 +1,7 @@
 package dev.danascape.tutorial
 
-import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 
@@ -18,7 +16,7 @@ class MainActivity : AppCompatActivity() {
         val tvCount = findViewById<TextView>(R.id.tvCount)
 
         btnCount.setOnClickListener {
-            count ++
+            count++
             tvCount.text = "Let's Count: $count"
         }
 
