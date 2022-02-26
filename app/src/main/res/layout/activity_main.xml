@@ -7,42 +7,14 @@
     android:padding="10dp"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/tvCount"
+    <Button
+        android:id="@+id/btnToast"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Let's Count: 0"
-        android:textAlignment="center"
-        android:textColor="@color/customred"
-        android:textSize="30sp"
-        android:textStyle="italic"
+        android:text="Show toast"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="219dp"
-        tools:ignore="MissingConstraints" />
-
-    <EditText
-        android:id="@+id/editTexts"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="sup"
-        android:inputType="number"
-        android:minWidth="48dp"
-        android:minHeight="48dp"
-        app:layout_constraintBottom_toTopOf="@+id/tvCount"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/btnCount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="56dp"
-        android:text="+1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvCount" />
 </androidx.constraintlayout.widget.ConstraintLayout>

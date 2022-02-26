@@ -3,21 +3,17 @@ package dev.danascape.tutorial
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
-import android.widget.TextView
+import android.widget.Toast
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        var count = 0
+        val btnToast = findViewById<Button>(R.id.btnToast)
 
-        val btnCount = findViewById<Button>(R.id.btnCount) // IDK why
-        val tvCount = findViewById<TextView>(R.id.tvCount)
-
-        btnCount.setOnClickListener {
-            count++
-            tvCount.text = "Let's Count: $count"
+        btnToast.setOnClickListener {
+            Toast.makeText(this, "Hi I am a toast", Toast.LENGTH_LONG  ).show()
         }
 
     }
