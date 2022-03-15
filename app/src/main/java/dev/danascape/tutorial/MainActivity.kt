@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.Toast
+import android.view.LayoutInflater
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -11,9 +12,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val btnToast = findViewById<Button>(R.id.btnToast)
+        val clToast = findViewById<Button>(R.id.clToast)
 
         btnToast.setOnClickListener {
-            Toast.makeText(applicationContext, "Hi I am a toast", Toast.LENGTH_SHORT  ).show()
+            Toast(this).apply {
+                duration = Toast.LENGTH_LONG
+                view = layoutInflater.inflate(R.layout.custom_toast, R.id.clToast)
+                show()
+            }
         }
 
     }
