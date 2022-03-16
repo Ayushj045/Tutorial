@@ -19,6 +19,5 @@ class MainActivity : AppCompatActivity() {
         btnToast.setOnClickListener{
             Toast(this).showCustomToast ("Hello! This is a custom Toast!", this)
         }
-
     }
 }
