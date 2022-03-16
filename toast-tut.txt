@@ -1,0 +1,139 @@
+Step 1: Create the Toast Layout
+Go to res -> layout (right-click) -> new -> Layout Resource file -> Create (custom_toast_layout.xml) file. Add a CardView to contain the custom toast message and also add a TextView to display the text inside the custom toast message. FrameLayout is used to specify the position of multiple views placed on top of each other to represent a single view screen.
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/toast_container">
+ 
+    <RelativeLayout
+        android:id="@+id/button_parent"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true">
+ 
+        <androidx.cardview.widget.CardView
+            android:id="@+id/button_card_parent"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="25dp"
+            app:cardElevation="20dp"
+            android:layout_marginRight="25dp"
+            app:cardCornerRadius="4dp">
+ 
+            <RelativeLayout
+                android:id="@+id/button_click_parent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true">
+ 
+                <FrameLayout
+                    android:id="@+id/button_accent_border"
+                    android:layout_width="4dp"
+                    android:layout_height="match_parent"
+                    android:background="#3EAA56" />
+ 
+                <TextView
+                    android:id="@+id/toast_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="17dp"
+                    android:ellipsize="end"
+                    android:lines="1"
+                    android:text="This is a custom Toast"
+                    android:textColor="#131313"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+ 
+            </RelativeLayout>
+ 
+        </androidx.cardview.widget.CardView>
+ 
+    </RelativeLayout>
+ 
+</RelativeLayout>
+
+Step 2: Create a New Kotlin File
+Now creates a new Kotlin file and name it as WrapToast.kt to make the code reusable. Go to Project Package (right-click) -> new -> Kotlin file/class -> Create (WrapToast.kt) file. Now we are going to extend the Toast::class with showCustomToast() which will take String and Context as a parameter.
+Note:
+Inflate the previously created layout (custom_toast_layout.xml) using the layoutInflater.
+After, inflated the layout, find its view. In this case, set the text of the TextView of the message.
+The last step is to create a new instance about the Toast:: class. Then, using its application extension function sets the gravity, the duration, and the layout. Inside apply, call the show() method as well.
+import android.app.Activity
+import android.view.Gravity
+import android.widget.TextView
+import android.widget.Toast
+ 
+fun Toast.showCustomToast(message: String, activity: Activity)
+{
+    val layout = activity.layoutInflater.inflate (
+        R.layout.custom_toast_layout,
+        activity.findViewById(R.id.toast_container)
+    )
+     
+    // set the text of the TextView of the message
+    val textView = layout.findViewById<TextView>(R.id.toast_text)
+    textView.text = message
+   
+    // use the application extension function
+    this.apply {
+        setGravity(Gravity.BOTTOM, 0, 40)
+        duration = Toast.LENGTH_LONG
+        view = layout
+        show()
+    }
+}
+
+Step 3: Create a Button to Show Toast in an Activity
+Add a Button inside the ConstraintLayout. So when the user clicks on the button then the custom Toast is popped up on the screen. 
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+ 
+    <Button
+        android:id="@+id/btn_show_toast"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="Show Toast"
+        android:background="#3EAA56"
+        android:textColor="#fff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+ 
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+Step 4: Create the Toast
+After, creating the button to show a toast apply an onClickListener() and pass the Toast message and the context of the activity.
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.Toast
+import kotlinx.android.synthetic.main.activity_main.*
+ 
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+ 
+        // apply an onClickListener() method
+        btn_show_toast.setOnClickListener{
+            Toast(this).showCustomToast ("Hello! This is a custom Toast!", this)
+        }
+    }
+}
+
+Custom toast views are no longer recommended. When in the foreground, apps can use the makeText() function to produce a normal text toast, or they can create a Snackbar. Custom toast views will not be displayed when the owning application, targeting API level Build.VERSION_CODES#R or above is in the background. For now, Toasts built using makeText() or its variations will likewise return null here in apps targeting API level Build.VERSION CODES.R or above, unless they called setView with a non-null view.
