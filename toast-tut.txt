@@ -1,5 +1,6 @@
 Step 1: Create the Toast Layout
-Go to res -> layout (right-click) -> new -> Layout Resource file -> Create (custom_toast_layout.xml) file. Add a CardView to contain the custom toast message and also add a TextView to display the text inside the custom toast message. FrameLayout is used to specify the position of multiple views placed on top of each other to represent a single view screen.
+Go to res -> layout (right-click) -> new -> Layout Resource file -> Create (custom_toast_layout.xml) file.
+Add a CardView to contain the custom toast message and also add a TextView to display the text inside the custom toast message. FrameLayout is used to specify the position of multiple views placed on top of each other to represent a single view screen.
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
