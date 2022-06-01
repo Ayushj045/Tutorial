@@ -15,7 +15,6 @@ class MainActivity : AppCompatActivity() {
         btnShowToast.setOnLongClickListener {
             Toast.makeText(this, "This is a toast", Toast.LENGTH_LONG).show()
             true
-
         }
     }
 }
