@@ -2,6 +2,7 @@ package dev.danascape.tutorial
 
 import android.os.Bundle
 import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
@@ -12,10 +13,9 @@ class MainActivity : AppCompatActivity() {
         val btnShowToast = findViewById<Button>(R.id.btnShowToast)
 
         btnShowToast.setOnLongClickListener {
-            toast {
-                "hello"
-            }
+            Toast.makeText(this, "This is a toast", Toast.LENGTH_LONG).show()
             true
+
         }
     }
 }
