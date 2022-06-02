@@ -1,5 +1,6 @@
 package dev.danascape.tutorial
 
+import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
@@ -21,10 +22,17 @@ class MainActivity : AppCompatActivity() {
     private fun hasLocationBackgroundPermission() =
         ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED
 
+    private fun hasLocationCoarsePermissions() =
+        ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+
     private fun requestPermissions() {
         var permissionToRequest = mutableListOf<String>()
         if(!hasLocationBackgroundPermission()) {
             permissionToRequest.add(android.Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+        }
+
+        if(!hasLocationCoarsePermissions()) {
+            permissionToRequest.add(android.Manifest.permission.ACCESS_COARSE_LOCATION)
         }
 
         if(permissionToRequest.isNotEmpty()) {
