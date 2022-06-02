@@ -12,10 +12,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val btnShowToast = findViewById<Button>(R.id.btnOpenActivity)
+        val btnApply = findViewById<Button>(R.id.btnApply)
+        val etName = findViewById<EditText>(R.id.etName)
 
-        btnShowToast.setOnLongClickListener { it ->
+        btnApply.setOnLongClickListener { it ->
+            val name = etName.text.toString()
             Intent(this, SecondActivity::class.java).also {
+                it.putExtra("EXTRA_NAME", name)
                 startActivity(it)
             }
             true
