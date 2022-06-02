@@ -1,8 +1,8 @@
 package dev.danascape.tutorial
 
 import android.os.Bundle
-import android.widget.Button
-import android.widget.Toast
+import android.text.Layout
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
@@ -13,7 +13,12 @@ class MainActivity : AppCompatActivity() {
         val btnShowToast = findViewById<Button>(R.id.btnShowToast)
 
         btnShowToast.setOnLongClickListener {
-            Toast.makeText(this, "This is a toast", Toast.LENGTH_LONG).show()
+//            Toast(this).apply {
+//                duration = Toast.LENGTH_LONG
+//                val clToast = findViewById<Layout>(R.id.clToast)
+//                view = layoutInflater.inflate(R.layout.custom_toast, clToast)
+//            }
+            Toast.makeText(applicationContext, "This is a toast", Toast.LENGTH_SHORT).show()
             true
         }
     }
