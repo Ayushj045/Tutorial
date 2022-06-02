@@ -17,8 +17,9 @@ class MainActivity : AppCompatActivity() {
 
         btnApply.setOnLongClickListener { it ->
             val name = etName.text.toString()
+            val person =  Person(name)
             Intent(this, SecondActivity::class.java).also {
-                it.putExtra("EXTRA_NAME", name)
+                it.putExtra("EXTRA_PERSON", person)
                 startActivity(it)
             }
             true

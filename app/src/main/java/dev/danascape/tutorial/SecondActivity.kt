@@ -9,8 +9,8 @@ class SecondActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second)
 
-        val name = intent.getStringExtra("EXTRA_NAME")
+        val person = intent.getSerializableExtra("EXTRA_PERSON") as Person
         val teShow = findViewById<TextView>(R.id.teShow)
-        teShow.text = name
+        teShow.text = person.toString()
     }
 }
