@@ -1,32 +1,49 @@
 package dev.danascape.tutorial
 
-import android.annotation.SuppressLint
-import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 
 class MainActivity : AppCompatActivity() {
-    @SuppressLint("InflateParams")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val btnApply = findViewById<Button>(R.id.btnApply)
-        val etAge = findViewById<EditText>(R.id.etAge)
-        val etCountry = findViewById<EditText>(R.id.etCountry)
-        val etName = findViewById<EditText>(R.id.etName)
+        val btnPermission = findViewById<Button>(R.id.btnPermission)
+        btnPermission.setOnClickListener {
+            requestPermissions()
+        }
+    }
 
-        btnApply.setOnLongClickListener { it ->
-            val age = etAge.text.toString().toInt()
-            val country = etCountry.text.toString()
-            val name = etName.text.toString()
-            val person =  Person(name, age, country)
-            Intent(this, SecondActivity::class.java).also {
-                it.putExtra("EXTRA_PERSON", person)
-                startActivity(it)
+    private fun hasLocationBackgroundPermission() =
+        ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED
+
+    private fun requestPermissions() {
+        var permissionToRequest = mutableListOf<String>()
+        if(!hasLocationBackgroundPermission()) {
+            permissionToRequest.add(android.Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+        }
+
+        if(permissionToRequest.isNotEmpty()) {
+            ActivityCompat.requestPermissions(this, permissionToRequest.toTypedArray(),0)
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if(requestCode == 0 && grantResults.isNotEmpty()) {
+            for(i in grantResults.indices) {
+                if(grantResults[i] == PackageManager.PERMISSION_GRANTED) {
+                    Log.d("PermissionRequest", "${permissions[i]} granted")
+                }
             }
-            true
         }
     }
 }
