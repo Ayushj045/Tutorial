@@ -10,12 +10,10 @@ class SecondActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second)
 
-        val btSecondActivity = findViewById<Button>(R.id.btSecondActivity)
+        val btClose = findViewById<Button>(R.id.btClose)
 
-        btSecondActivity.setOnLongClickListener { it ->
-            Intent(this, MainActivity::class.java).also {
-                startActivity(it)
-            }
+        btClose.setOnLongClickListener { it ->
+                finish()
             true
         }
     }
