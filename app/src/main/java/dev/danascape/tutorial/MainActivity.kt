@@ -1,7 +1,6 @@
 package dev.danascape.tutorial
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 
