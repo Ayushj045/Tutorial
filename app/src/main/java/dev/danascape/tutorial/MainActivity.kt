@@ -1,57 +1,31 @@
 package dev.danascape.tutorial
 
-import android.Manifest
-import android.content.pm.PackageManager
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val btnPermission = findViewById<Button>(R.id.btnPermission)
-        btnPermission.setOnClickListener {
-            requestPermissions()
-        }
-    }
-
-    private fun hasLocationBackgroundPermission() =
-        ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED
-
-    private fun hasLocationCoarsePermissions() =
-        ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
-
-    private fun requestPermissions() {
-        var permissionToRequest = mutableListOf<String>()
-        if(!hasLocationBackgroundPermission()) {
-            permissionToRequest.add(android.Manifest.permission.ACCESS_BACKGROUND_LOCATION)
-        }
-
-        if(!hasLocationCoarsePermissions()) {
-            permissionToRequest.add(android.Manifest.permission.ACCESS_COARSE_LOCATION)
-        }
-
-        if(permissionToRequest.isNotEmpty()) {
-            ActivityCompat.requestPermissions(this, permissionToRequest.toTypedArray(),0)
-        }
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if(requestCode == 0 && grantResults.isNotEmpty()) {
-            for(i in grantResults.indices) {
-                if(grantResults[i] == PackageManager.PERMISSION_GRANTED) {
-                    Log.d("PermissionRequest", "${permissions[i]} granted")
-                }
+        val btnPhoto = findViewById<Button>(R.id.btnPhoto)
+        val ivPhoto = findViewById<ImageView>(R.id.ivPhoto)
+        btnPhoto.setOnClickListener {
+            Intent(Intent.ACTION_GET_CONTENT).also {
+                it.type = "image/*"
+                startActivityForResult(it, 0)
             }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        val ivPhoto = findViewById<ImageView>(R.id.ivPhoto)
+        if (resultCode == RESULT_OK && requestCode == 0) {
+            val uri = data?.data
+            ivPhoto.setImageURI(uri)
         }
     }
 }
