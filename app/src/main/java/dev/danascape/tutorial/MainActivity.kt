@@ -15,7 +15,6 @@ class MainActivity : AppCompatActivity() {
         btnShowToast.setOnLongClickListener {
             Toast(this).apply {
                 duration = Toast.LENGTH_LONG
-                val clToast = findViewById<TextView>(R.id.customToast)
                 view = layoutInflater.inflate(R.layout.custom_toast, null)
                 show()
             }
