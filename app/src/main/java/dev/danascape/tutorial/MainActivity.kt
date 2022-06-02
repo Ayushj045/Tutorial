@@ -18,12 +18,6 @@ class MainActivity : AppCompatActivity() {
             Intent(this, SecondActivity::class.java).also {
                 startActivity(it)
             }
-
-            Toast(this).apply {
-                duration = Toast.LENGTH_LONG
-                view = layoutInflater.inflate(R.layout.custom_toast, null)
-                show()
-            }
             true
         }
     }
