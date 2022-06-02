@@ -16,5 +16,14 @@ class SecondActivity : AppCompatActivity() {
                 finish()
             true
         }
+
+        val btnThird = findViewById<Button>(R.id.btnThird)
+
+        btnThird.setOnLongClickListener { it ->
+            Intent(this, ThirdActivity::class.java).also {
+                startActivity(it)
+            }
+            true
+        }
     }
 }
