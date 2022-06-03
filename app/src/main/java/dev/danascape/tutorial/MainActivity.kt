@@ -11,7 +11,15 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+    }
 
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.miSettings) {
+            Intent(this, SecondActivity::class.java).also {
+                startActivity(it)
+            }
+        }
+        return true
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
