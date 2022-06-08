@@ -45,6 +45,25 @@ class MainActivity : AppCompatActivity() {
         btnDialog2.setOnClickListener() {
             singleChoiceDialog.show()
         }
+
+        val multiChoiceDialog = AlertDialog.Builder(this)
+            .setTitle("Choose an Option")
+            .setMultiChoiceItems(option, booleanArrayOf(false, false, false)) { dialogInterface, i, b ->
+                if (b == true) {
+                    Toast.makeText(this, "You clicked on ${option[i]}", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .setPositiveButton("Accept") { _, _ ->
+                Toast.makeText(this, "You accepted the Dialog", Toast.LENGTH_SHORT).show()
+            }
+            .setNegativeButton("Decline") { _, _ ->
+                Toast.makeText(this, "You declined the Dialog", Toast.LENGTH_SHORT).show()
+            }.create()
+
+        val btnDialog3 = findViewById<Button>(R.id.btnDialog3)
+        btnDialog3.setOnClickListener() {
+            multiChoiceDialog.show()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
