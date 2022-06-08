@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
             .setPositiveButton("Yes") { dialogInterface, i ->
                 Toast.makeText(this, "You Added Saalim to your contact list", Toast.LENGTH_SHORT).show()
             }
-            .setNegativeButton("Yes") { dialogInterface, i ->
+            .setNegativeButton("No") { dialogInterface, i ->
                 Toast.makeText(this, "You didn't add Saalim to your contact list", Toast.LENGTH_SHORT).show()
             }.create()
 
