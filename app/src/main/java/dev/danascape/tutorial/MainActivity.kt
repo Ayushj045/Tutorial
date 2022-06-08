@@ -17,10 +17,10 @@ class MainActivity : AppCompatActivity() {
             .setTitle("Add Contact")
             .setMessage("Add Saalim to your contact list")
             .setIcon(R.drawable.ic_add_contact)
-            .setPositiveButton("Yes") { dialogInterface, i ->
+            .setPositiveButton("Yes") { _, _ ->
                 Toast.makeText(this, "You Added Saalim to your contact list", Toast.LENGTH_SHORT).show()
             }
-            .setNegativeButton("No") { dialogInterface, i ->
+            .setNegativeButton("No") { _, _ ->
                 Toast.makeText(this, "You didn't add Saalim to your contact list", Toast.LENGTH_SHORT).show()
             }.create()
 
