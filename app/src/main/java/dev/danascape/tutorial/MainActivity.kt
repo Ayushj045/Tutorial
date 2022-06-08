@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
             addContactDialog.show()
         }
 
-        val option = arrayOf("First ITem", "Second ITem", "Third Item")
+        val option = arrayOf("First Item", "Second Item", "Third Item")
         val singleChoiceDialog = AlertDialog.Builder(this)
             .setTitle("Choose an Option")
             .setSingleChoiceItems(option, 0) { dialogInterface, i ->
@@ -48,9 +48,11 @@ class MainActivity : AppCompatActivity() {
 
         val multiChoiceDialog = AlertDialog.Builder(this)
             .setTitle("Choose an Option")
-            .setMultiChoiceItems(option, booleanArrayOf(false, false, false)) { dialogInterface, i, b ->
-                if (b == true) {
-                    Toast.makeText(this, "You clicked on ${option[i]}", Toast.LENGTH_SHORT).show()
+            .setMultiChoiceItems(option, booleanArrayOf(false, false, false)) { _, i, isChecked ->
+                if (isChecked) {
+                    Toast.makeText(this, "You checked in ${option[i]}", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this, "You unchecked in ${option[i]}", Toast.LENGTH_SHORT).show()
                 }
             }
             .setPositiveButton("Accept") { _, _ ->
