@@ -1,86 +1,69 @@
 package dev.danascape.tutorial
 
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.media.Image
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.app.ActivityCompat
+import java.util.jar.Manifest
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val btnDialog1 = findViewById<Button>(R.id.btnDialog1)
-        val addContactDialog = AlertDialog.Builder(this)
-            .setTitle("Add Contact")
-            .setMessage("Add Saalim to your contact list")
-            .setIcon(R.drawable.ic_add_contact)
-            .setPositiveButton("Yes") { _, _ ->
-                Toast.makeText(this, "You Added Saalim to your contact list", Toast.LENGTH_SHORT).show()
-            }
-            .setNegativeButton("No") { _, _ ->
-                Toast.makeText(this, "You didn't add Saalim to your contact list", Toast.LENGTH_SHORT).show()
-            }.create()
-
-        btnDialog1.setOnClickListener() {
-            addContactDialog.show()
+        val btnRequestPermission = findViewById<Button>(R.id.btnRequestPermissions)
+        btnRequestPermission.setOnClickListener {
+            requestPermission()
         }
+    }
 
-        val option = arrayOf("First Item", "Second Item", "Third Item")
-        val singleChoiceDialog = AlertDialog.Builder(this)
-            .setTitle("Choose an Option")
-            .setSingleChoiceItems(option, 0) { dialogInterface, i ->
-                Toast.makeText(this, "You clicked on ${option[i]}", Toast.LENGTH_SHORT).show()
-            }
-            .setPositiveButton("Accept") { _, _ ->
-                Toast.makeText(this, "You accepted the Dialog", Toast.LENGTH_SHORT).show()
-            }
-            .setNegativeButton("Decline") { _, _ ->
-                Toast.makeText(this, "You declined the Dialog", Toast.LENGTH_SHORT).show()
-            }.create()
+    private fun hasWriteExternalStoragePermission() =
+        ActivityCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
 
-        val btnDialog2 = findViewById<Button>(R.id.btnDialog2)
-        btnDialog2.setOnClickListener() {
-            singleChoiceDialog.show()
+    private fun hasLocationForegroundPermission() =
+        ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+
+    private fun hasLocationBackgroundPermission() =
+        ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED
+
+    private fun requestPermission() {
+        var permissionToRequest = mutableListOf<String>()
+        if (!hasWriteExternalStoragePermission()) {
+            permissionToRequest.add(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
         }
+        if (!hasLocationForegroundPermission()) {
+            permissionToRequest.add(android.Manifest.permission.ACCESS_COARSE_LOCATION)
+        }
+        if (!hasLocationBackgroundPermission()) {
+            permissionToRequest.add(android.Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+        }
+        if (permissionToRequest.isNotEmpty()){
+            ActivityCompat.requestPermissions(this, permissionToRequest.toTypedArray(),0)
+        }
+    }
 
-        val multiChoiceDialog = AlertDialog.Builder(this)
-            .setTitle("Choose an Option")
-            .setMultiChoiceItems(option, booleanArrayOf(false, false, false)) { _, i, isChecked ->
-                if (isChecked) {
-                    Toast.makeText(this, "You checked in ${option[i]}", Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(this, "You unchecked in ${option[i]}", Toast.LENGTH_SHORT).show()
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 0 && grantResults.isNotEmpty()){
+            for (i in grantResults.indices){
+                if (grantResults[i] == PackageManager.PERMISSION_GRANTED){
+                    Log.d("PermissionRequest","${permissions[i]} granted.")
                 }
             }
-            .setPositiveButton("Accept") { _, _ ->
-                Toast.makeText(this, "You accepted the Dialog", Toast.LENGTH_SHORT).show()
-            }
-            .setNegativeButton("Decline") { _, _ ->
-                Toast.makeText(this, "You declined the Dialog", Toast.LENGTH_SHORT).show()
-            }.create()
-
-        val btnDialog3 = findViewById<Button>(R.id.btnDialog3)
-        btnDialog3.setOnClickListener() {
-            multiChoiceDialog.show()
         }
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.app_bar_menu, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
-            R.id.miAddContact -> Toast.makeText(this, "You clicked on Add Contact", Toast.LENGTH_SHORT).show()
-            R.id.miFavorites -> Toast.makeText(this, "You clicked on Favorites", Toast.LENGTH_SHORT).show()
-            R.id.miSettings -> Toast.makeText(this, "You clicked on Settings", Toast.LENGTH_SHORT).show()
-            R.id.miClose -> Toast.makeText(this, "Finish", Toast.LENGTH_SHORT).show()
-            R.id.miFeedback -> Toast.makeText(this, "You clicked on Feedback", Toast.LENGTH_SHORT).show()
-        }
-        return true
     }
 }
+
