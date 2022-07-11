@@ -1,5 +1,6 @@
 package dev.danascape.tutorial
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.Image
@@ -40,11 +41,11 @@ class MainActivity : AppCompatActivity() {
         if (!hasWriteExternalStoragePermission()) {
             permissionToRequest.add(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
         }
-        if (!hasLocationForegroundPermission()) {
+        if (!hasLocationForegroundPermission()){
             permissionToRequest.add(android.Manifest.permission.ACCESS_COARSE_LOCATION)
         }
-        if (!hasLocationBackgroundPermission()) {
-            permissionToRequest.add(android.Manifest.permission.ACCESS_BACKGROUND_LOCATION)
+        if (!hasLocationBackgroundPermission() && hasLocationForegroundPermission()) {
+            permissionToRequest.add(android.Manifest.permission.ACCESS_BACKGROUND_LOCATION )
         }
         if (permissionToRequest.isNotEmpty()){
             ActivityCompat.requestPermissions(this, permissionToRequest.toTypedArray(),0)
