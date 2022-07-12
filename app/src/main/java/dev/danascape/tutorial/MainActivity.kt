@@ -1,6 +1,7 @@
 package dev.danascape.tutorial
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.Image
@@ -21,51 +22,24 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val btnRequestPermission = findViewById<Button>(R.id.btnRequestPermissions)
-        btnRequestPermission.setOnClickListener {
-            requestPermission()
-        }
-    }
+        val ivPhoto = findViewById<ImageView>(R.id.ivPhoto)
+        val btnTakePhoto = findViewById<Button>(R.id.btnTakePhoto)
 
-    private fun hasWriteExternalStoragePermission() =
-        ActivityCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-
-    private fun hasLocationForegroundPermission() =
-        ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
-
-    private fun hasLocationBackgroundPermission() =
-        ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_BACKGROUND_LOCATION) == PackageManager.PERMISSION_GRANTED
-
-    private fun requestPermission() {
-        var permissionToRequest = mutableListOf<String>()
-        if (!hasWriteExternalStoragePermission()) {
-            permissionToRequest.add(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-        }
-        if (!hasLocationForegroundPermission()){
-            permissionToRequest.add(android.Manifest.permission.ACCESS_COARSE_LOCATION)
-        }
-        if (!hasLocationBackgroundPermission() && hasLocationForegroundPermission()) {
-            permissionToRequest.add(android.Manifest.permission.ACCESS_BACKGROUND_LOCATION )
-        }
-        if (permissionToRequest.isNotEmpty()){
-            ActivityCompat.requestPermissions(this, permissionToRequest.toTypedArray(),0)
-        }
-    }
-
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == 0 && grantResults.isNotEmpty()){
-            for (i in grantResults.indices){
-                if (grantResults[i] == PackageManager.PERMISSION_GRANTED){
-                    Log.d("PermissionRequest","${permissions[i]} granted.")
-                }
+        btnTakePhoto.setOnClickListener {
+            Intent(Intent.ACTION_GET_CONTENT).also {
+                it.type = "image/*"
+                this.startActivityForResult(it, 0)
             }
         }
     }
-}
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == 0){
+            val uri = data?.data
+            var ivPhoto = findViewById<ImageView>(R.id.ivPhoto)
+            ivPhoto.setImageURI(uri)
+        }
+    }
+    }
 
