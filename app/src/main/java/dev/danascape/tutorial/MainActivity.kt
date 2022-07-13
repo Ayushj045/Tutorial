@@ -22,24 +22,68 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val ivPhoto = findViewById<ImageView>(R.id.ivPhoto)
-        val btnTakePhoto = findViewById<Button>(R.id.btnTakePhoto)
+        val btnDialog1 = findViewById<Button>(R.id.btnDialog1)
+        val btnDialog2 = findViewById<Button>(R.id.btnDialog2)
+        val btnDialog3 = findViewById<Button>(R.id.btnDialog3)
 
-        btnTakePhoto.setOnClickListener {
-            Intent(Intent.ACTION_GET_CONTENT).also {
-                it.type = "image/*"
-                this.startActivityForResult(it, 0)
+        val addContactDialog = AlertDialog.Builder(this)
+            .setTitle("Add contact")
+            .setMessage("Do u want to add mr Ayush to your contact list?")
+            .setIcon(R.drawable.ic_add_contact)
+            .setPositiveButton("Yes") { _, _ ->
+                Toast.makeText(this, "You added mr. Ayush to your contact list", Toast.LENGTH_SHORT)
+                    .show()
             }
+            .setNegativeButton("No") { _, _ ->
+                Toast.makeText(
+                    this,
+                    "You  didn't added mr. Ayush to your contact list",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+        btnDialog1.setOnClickListener {
+            addContactDialog.show()
+        }
+
+        val options = arrayOf("First Item", "Second Item", "Third Item")
+        val singleChoiceDialog = AlertDialog.Builder(this)
+            .setTitle("Choose one of these option")
+            .setSingleChoiceItems(options, 0) { dialogInterface, i ->
+                Toast.makeText(this, "You clicked on ${options[i]}", Toast.LENGTH_SHORT).show()
+            }
+            .setPositiveButton("Yes") { _, _ ->
+                Toast.makeText(this, "You accept the singleChoiceDialog", Toast.LENGTH_SHORT).show()
+            }
+            .setNegativeButton("No") { _, _ ->
+                Toast.makeText(this, "You declined the singleChoiceDialog", Toast.LENGTH_SHORT)
+                    .show()
+            }.create()
+
+        btnDialog2.setOnClickListener {
+            singleChoiceDialog.show()
+        }
+
+        val multiChoiceDialog = AlertDialog.Builder(this)
+            .setTitle("Choose one of these option")
+            .setMultiChoiceItems(options, booleanArrayOf(false, false, false)) { _, i, isChecked ->
+                if (isChecked) {
+                    Toast.makeText(this, "you checked ${options[i]}", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this, "you unchecked ${options[i]}", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .setPositiveButton("Yes") { _, _ ->
+                Toast.makeText(this, "You accept the multiChoiceDialog", Toast.LENGTH_SHORT).show()
+            }
+            .setNegativeButton("No") { _, _ ->
+                Toast.makeText(this, "You declined the multiChoiceDialog", Toast.LENGTH_SHORT)
+                    .show()
+            }.create()
+
+        btnDialog3.setOnClickListener {
+            multiChoiceDialog.show()
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK && requestCode == 0){
-            val uri = data?.data
-            var ivPhoto = findViewById<ImageView>(R.id.ivPhoto)
-            ivPhoto.setImageURI(uri)
-        }
-    }
-    }
-
+}
