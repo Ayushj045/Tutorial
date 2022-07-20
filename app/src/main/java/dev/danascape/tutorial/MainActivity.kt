@@ -21,30 +21,33 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val spMonths = findViewById<Spinner>(R.id.spMonths)
 
-        val customList = listOf("first", "second", "third", "fourth")
-        val adapter =ArrayAdapter<String>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, customList)
-        spMonths.adapter =adapter
-        spMonths.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                Toast.makeText(this@MainActivity,
-                "you selected ${parent?.getItemAtPosition(position).toString()}",
-                Toast.LENGTH_LONG).show()
+        val btnFragment1 = findViewById<Button>(R.id.btnFragment1)
+        val btnFragment2 = findViewById<Button>(R.id.btnFragment2)
+        val firstFragment = FirstFragment()
+        val secondFragment = SecondFragment()
+
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.flFragment, firstFragment)
+            commit()
+        }
+
+        btnFragment1.setOnClickListener {
+            supportFragmentManager.beginTransaction().apply {
+                replace(R.id.flFragment, firstFragment)
+                addToBackStack(null)
+                commit()
             }
-
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-
+        }
+        btnFragment2.setOnClickListener {
+            supportFragmentManager.beginTransaction().apply {
+                replace(R.id.flFragment, secondFragment)
+                addToBackStack(null)
+                commit()
             }
-
         }
     }
-}
+    }
 
 
 
