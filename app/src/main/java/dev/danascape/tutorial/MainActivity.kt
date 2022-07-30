@@ -15,6 +15,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.util.jar.Manifest
 
 class MainActivity : AppCompatActivity() {
@@ -22,32 +24,31 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val btnFragment1 = findViewById<Button>(R.id.btnFragment1)
-        val btnFragment2 = findViewById<Button>(R.id.btnFragment2)
-        val firstFragment = FirstFragment()
-        val secondFragment = SecondFragment()
+        val tvFirstFragment =findViewById<TextView>(R.id.FirstFragment)
+        val tvSecondFragment =findViewById<TextView>(R.id.SecondFragment)
+        val tvThirdFragment =findViewById<TextView>(R.id.ThirdFragment)
+        val bottomNavigationView =findViewById<BottomNavigationView>(R.id.bottomNavigationView)
+        
 
+        val firstFragment = FirstFragment()
+        val SecondFragment = SecondFragment()
+        val thirdFragment = ThirdFragment()
+
+         setCurrentFragment(firstFragment)
+
+        BottomNavigationView .setOnNavigationItemSelectedListener{
+            when(it.itemId)
+    }
+    }
+
+    private fun setCurrentFragment(fragment: Fragment) =
         supportFragmentManager.beginTransaction().apply {
-            replace(R.id.flFragment, firstFragment)
+            replace(R.id.flFragment,fragment)
             commit()
         }
 
-        btnFragment1.setOnClickListener {
-            supportFragmentManager.beginTransaction().apply {
-                replace(R.id.flFragment, firstFragment)
-                addToBackStack(null)
-                commit()
-            }
-        }
-        btnFragment2.setOnClickListener {
-            supportFragmentManager.beginTransaction().apply {
-                replace(R.id.flFragment, secondFragment)
-                addToBackStack(null)
-                commit()
-            }
-        }
-    }
-    }
 
+
+}
 
 
