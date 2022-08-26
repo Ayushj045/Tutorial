@@ -1,54 +1,53 @@
 package dev.danascape.tutorial
 
-import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.media.Image
+import android.content.Context
 import android.os.Bundle
-import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
 import android.widget.*
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import java.util.jar.Manifest
 
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val tvFirstFragment =findViewById<TextView>(R.id.FirstFragment)
-        val tvSecondFragment =findViewById<TextView>(R.id.SecondFragment)
-        val tvThirdFragment =findViewById<TextView>(R.id.ThirdFragment)
-        val bottomNavigationView =findViewById<BottomNavigationView>(R.id.bottomNavigationView)
-        
+        val btnLoad = findViewById<Button>(R.id.btnLoad)
+        val etName = findViewById<EditText>(R.id.etName)
+        val etAge = findViewById<EditText>(R.id.etAge)
+       val btnSave = findViewById<Button>(R.id.btnSave)
+        val cbAdult = findViewById<CheckBox>(R.id.cbAdult)
+        val sharedPref = getSharedPreferences("myPref",Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
 
-        val firstFragment = FirstFragment()
-        val SecondFragment = SecondFragment()
-        val thirdFragment = ThirdFragment()
+        btnSave.setOnClickListener{
+            val name = etName.text.toString()
+            val age = etAge.text.toString().toInt()
+            val isAdult = cbAdult.isChecked
 
-         setCurrentFragment(firstFragment)
+            editor.apply{
+                putString("name", name)
+                putInt("age", age)
+                putBoolean("isAdult", isAdult)
+                apply()
+            }
+        }
 
-        BottomNavigationView .setOnNavigationItemSelectedListener{
-            when(it.itemId)
+        btnLoad.setOnClickListener{
+          val name = sharedPref.getString("name", null)
+            val age = sharedPref.getInt("age", 0)
+            val isAdult = sharedPref.getBoolean("isAdult", false)
+
+            etName.setText(name)
+            etAge.setText(age.toString())
+            cbAdult.isChecked = isAdult
+        }
     }
-    }
-
-    private fun setCurrentFragment(fragment: Fragment) =
-        supportFragmentManager.beginTransaction().apply {
-            replace(R.id.flFragment,fragment)
-            commit()
         }
 
 
 
-}
 
 
