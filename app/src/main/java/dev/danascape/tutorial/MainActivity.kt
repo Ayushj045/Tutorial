@@ -22,6 +22,8 @@ class MainActivity : AppCompatActivity() {
         val sharedPref = getSharedPreferences("myPref",Context.MODE_PRIVATE)
         val editor = sharedPref.edit()
 
+        //ayush
+
         btnSave.setOnClickListener{
             val name = etName.text.toString()
             val age = etAge.text.toString().toInt()
